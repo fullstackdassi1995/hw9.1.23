@@ -75,7 +75,7 @@ const connectedKnex = knex({
 
 router.get('/', async (req, resp) => {
     try {
-        logger.debug(`[test router][router.get] `)
+        logger.debug(`[test router][router.get all] `)
         const test = await test_repo.get_all_test();
         console.log(test);
         resp.status(200).json({ test })
@@ -150,19 +150,19 @@ router.post("/",async function (req, res) {
     console.log(req.body);
 	const { name, courseid } = req.body;
     try {
-	let test = {
-		name,
-		date: new Date(),
-        courseid: courseid
-	};
-    await test_repo.insert_test(test)
-	//test1.push(test);
-    logger.debug(`[test router][router.post] req.body = ${JSON.stringify(test)} `)
-	res.status(201).json(test);
+        let test = {
+            name,
+            date: new Date(),
+            courseid: courseid
+        };
+        await test_repo.insert_test(test)
+        //test1.push(test);
+        logger.debug(`[test router][router.post] req.body = ${JSON.stringify(test)} `)
+        res.status(201).json(test);
     }
     catch(err){
         console.log(err);
-        logger.error(`error during POST in employees router. employee = ${JSON.stringify(employee)} ${err.message}`)
+        logger.error(`error during POST in test router. test = ${JSON.stringify(test)} + ${err.message}`)
         resp.status(500).json({ "error": err.message })
     }
 });
@@ -211,8 +211,9 @@ router.put("/:id", async function (req, res) {
 		};
     await test_repo.update_test(req.params.id, updated);
 		res.sendStatus(204);
-	 } 
+	} 
     else {
+        logger.error(`error during PUT in test router. id = ${req.params.id} + ${err.message}`)
 		res.sendStatus(404);
 	} 
 }); 
@@ -254,6 +255,7 @@ router.delete('/:id', async (req, resp) => {
         })
     }
     catch (err) {
+        logger.error(`error during DELETE in test router.id = ${req.params.id} + ${err.message}`)
         resp.status(500).json({ "error": err.message })
     }
 
