@@ -3,9 +3,9 @@ const { combine, timestamp, label, prettyPrint } = format;
  
 //const file_name = String((new Date()).toLocaleString()).replace('/','_').replace(':','_').replace(' ','_')
 const logger = createLogger({
-  level: 'error',
+  level: 'debug',
   format: combine(
-    label({ label: 'right meow!' }),
+    //label({ label: 'right meow!' }),
     timestamp(),
     prettyPrint()
   ),
