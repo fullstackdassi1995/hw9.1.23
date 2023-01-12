@@ -14,8 +14,9 @@ const logger = createLogger({
     ]
 })
 
-logger.info({
-  level: 'info',
+logger.error({
+  level: 'error',
+  
   message: 'What time is the testing at?'
 });
 

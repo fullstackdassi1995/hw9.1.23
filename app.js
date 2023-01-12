@@ -34,9 +34,15 @@ const port = config.express.port
 app.use(express.static(path.join('.', '/static/'))) // /static/index.html
 // page1.html
 
+app.use(express.json())
+app.use(express.urlencoded({
+    extended: true
+}))
+
 app.listen(port, () => {
     console.log(`Listening to port ${port}`);
 })
+
 
 const options = {
     definition: {

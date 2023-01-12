@@ -47,7 +47,7 @@ const connectedKnex = knex({
 *           updatedat: new date()
 *           name: Kim
 *           date: new date()
-*           coursid: 123
+*           courseid: 123
 */
 
 /**
@@ -122,6 +122,50 @@ function is_valid_test(obj) {
         obj.hasOwnProperty('courseid') 
 }
 
+
+
+/**
+* 
+* @swagger
+* /test/:
+*     post:
+*       summary: Creates a new test
+*       tags: [test]
+*       requestBody:
+*         required: true
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/test'
+*       responses:
+*         "200":
+*           description: The created test.
+*           content:
+*             application/json:
+*               schema:
+*                 $ref: '#/components/schemas/test'
+*/
+
+router.post("/",async function (req, res) {
+    console.log(req.body);
+	const { name, courseid } = req.body;
+    
+	let test = {
+		name,
+		date: new Date(),
+        courseid: courseid
+	};
+    await test_repo.insert_test(test)
+	//test1.push(test);
+
+	res.status(201).json(test);
+});
+
+
+
+
+
+
 /**
 *  @swagger
 *	/test/{id}:
@@ -148,103 +192,23 @@ function is_valid_test(obj) {
 *           description: test not found.
 */
 
-router.put("/:id", function (req, res) {
-	let test = test_repo.find(function (item) {
-		return item.id == req.params.id;
-	});
-
+router.put("/:id", async function (req, res) {
+	const test = await test_repo.get_test_by_id(req.params.id)
 	if (test) {
-		const {  name, courseid } = req.body;
+		const { name, courseid } = req.body;
 
 		let updated = {
-			id: test.id,
-			name: name !== undefined ? name : test.name,
-            courseid: courseid !== undefined ? courseid : test.courseid,
-			createdat: new Date(),
+			name: name == undefined ? test.name : name,
+            courseid: courseid == undefined ? test.courseid : courseid,
+			updatedat: new Date(),
 		};
-
-		test_repo.insert_test.splice(test_repo.indexOf(test), 1, updated);
-
+    await test_repo.update_test(req.params.id, updated);
 		res.sendStatus(204);
-	} else {
+	 } 
+    else {
 		res.sendStatus(404);
-	}
-});
-
-// /**
-// * 
-// * @swagger
-// * /test/:
-// *     post:
-// *       summary: Creates a new test
-// *       tags: [test]
-// *       requestBody:
-// *         required: true
-// *         content:
-// *           application/json:
-// *             schema:
-// *               $ref: '#/components/schemas/test'
-// *       responses:
-// *         "200":
-// *           description: The created test.
-// *           content:
-// *             application/json:
-// *               schema:
-// *                 $ref: '#/components/schemas/test'
-// */
-
-// router.post("/", function (req, res) {
-// 	const { name, date, courseid } = req.body;
-
-// 	let test = {
-// 		name: name,
-// 		date: new Date(),
-//         courseid: courseid
-// 	};
-// 	test_repo.push(test);
-
-// 	res.status(201).json(test);
-// });
-
-
-// /**
-//  * @swagger
-//  * /test/{id}:
-//  *  put:
-//  *      description: Patch test
-//  *      parameters:
-//  *        - in: path
-//  *          name: id
-//  *          schema:
-//  *              type: string
-//  *          required: true
-//  *          description: string id of user to delete
-//  *      responses:
-//  *          200:
-//  *              description: User that was deleted
-//  */
-
-
-
-// // PUT -- UPDATE/replace (or insert)
-// router.put('/:id', async (req, resp) => {
-//     console.log(req.body);
-//     const employee = req.body
-//     try {
-//         if (! is_valid_test (employee)) {
-//             resp.status(400).json({ error: 'values of employee are not llegal'})
-//             return
-//         }
-//         const result = await emp_repo.update_emp(req.params.id, employee)
-//         resp.status(200).json({
-//              status: 'updated',
-//              'how many rows updated': result
-//             })
-//     }
-//     catch (err) {
-//         resp.status(500).json({ "error": err.message })
-//     }
-// })
+	} 
+}); 
 
 
 /**
