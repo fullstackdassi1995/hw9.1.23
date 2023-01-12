@@ -259,31 +259,31 @@ router.delete('/:id', async (req, resp) => {
 
 })
 
-/**
- * @swagger
- * /test/{id}:
- *  patch:
- *      description: Patch test
- *      parameters:
- *        - in: path
- *          name: id
- *          schema:
- *              type: string
- *          required: true
- *          description: string id of user to delete
- *      responses:
- *          200:
- *              description: User that was deleted
- */
+// /**
+//  * @swagger
+//  * /test/{id}:
+//  *  patch:
+//  *      description: Patch test
+//  *      parameters:
+//  *        - in: path
+//  *          name: id
+//  *          schema:
+//  *              type: string
+//  *          required: true
+//  *          description: string id of user to delete
+//  *      responses:
+//  *          200:
+//  *              description: User that was deleted
+//  */
 
-// PATCH -- UPDATE 
-router.patch('/:id', (req, resp) => {
-    console.log(req.params.id);
-    // actually delete ... later
-    // response
-    resp.writeHead(200)
-    resp.end('Successfully updated patched')
-})
+// // PATCH -- UPDATE 
+// router.patch('/:id', (req, resp) => {
+//     console.log(req.params.id);
+//     // actually delete ... later
+//     // response
+//     resp.writeHead(200)
+//     resp.end('Successfully updated patched')
+// })
 
 
 module.exports = router;
