@@ -1,0 +1,25 @@
+{
+  "name": "29.12.2022",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": "",
+  "homepage": "https://github.com/fullstack180822/09.01.2023.git#readme",
+  "dependencies": {
+    "config": "^3.3.8",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "knex": "^2.3.0",
+    "pg": "^8.8.0",
+    "swagger-jsdoc": "^6.2.7",
+    "swagger-ui-express": "^4.6.0",
+    "winston": "^3.8.2"
+  }
+}
