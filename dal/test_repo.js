@@ -21,7 +21,7 @@ const get_test_by_id = id => {
 }
 
 const insert_test = test => {
-    return connectedKnex('test').insert(test)
+    return connectedKnex('test').returning('id').insert(test)
 }
 
 const update_test = (id, test) => {

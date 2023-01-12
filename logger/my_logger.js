@@ -3,6 +3,7 @@ const { combine, timestamp, label, prettyPrint } = format;
  
 //const file_name = String((new Date()).toLocaleString()).replace('/','_').replace(':','_').replace(' ','_')
 const logger = createLogger({
+  level: 'error',
   format: combine(
     label({ label: 'right meow!' }),
     timestamp(),
@@ -14,11 +15,11 @@ const logger = createLogger({
     ]
 })
 
-logger.error({
-  level: 'error',
+// logger.info({
+//   level: 'info',
   
-  message: 'What time is the testing at?'
-});
+//   message: 'What time is the testing at?'
+// });
 
 // logger.info(
 //     'What time is the testing at?'

@@ -75,11 +75,13 @@ const connectedKnex = knex({
 
 router.get('/', async (req, resp) => {
     try {
+        logger.debug(`[test router][router.get] `)
         const test = await test_repo.get_all_test();
         console.log(test);
         resp.status(200).json({ test })
     }
     catch (err) {
+        logger.error(`error during GET ALL in test router. test = ${JSON.stringify(test)} ${err.message}`)
         resp.status(500).json({ "error": err.message })
     }
 })
@@ -109,18 +111,15 @@ router.get('/', async (req, resp) => {
           
 router.get('/:id', async (req, resp) => {
     try {
+        logger.debug(`[test router][router.get_test_by_id] parameter :id = ${req.params.id}`)
         const test = await test_repo.get_test_by_id(req.params.id)
         resp.status(200).json(test)
     }
     catch (err) {
+        logger.error(`[test router][router.get by id]  id =  ${req.params.id} ${err}`)
         resp.status(500).json({ "error": err.message })
     }
 })
-
-function is_valid_test(obj) {
-    return  obj.hasOwnProperty('name') && 
-        obj.hasOwnProperty('courseid') 
-}
 
 
 
@@ -147,9 +146,10 @@ function is_valid_test(obj) {
 */
 
 router.post("/",async function (req, res) {
+    logger.debug(`[test router][router.post] req.body = ${JSON.stringify(req.body)} `)
     console.log(req.body);
 	const { name, courseid } = req.body;
-    
+    try {
 	let test = {
 		name,
 		date: new Date(),
@@ -157,8 +157,14 @@ router.post("/",async function (req, res) {
 	};
     await test_repo.insert_test(test)
 	//test1.push(test);
-
+    logger.debug(`[test router][router.post] req.body = ${JSON.stringify(test)} `)
 	res.status(201).json(test);
+    }
+    catch(err){
+        console.log(err);
+        logger.error(`error during POST in employees router. employee = ${JSON.stringify(employee)} ${err.message}`)
+        resp.status(500).json({ "error": err.message })
+    }
 });
 
 
@@ -195,6 +201,7 @@ router.post("/",async function (req, res) {
 router.put("/:id", async function (req, res) {
 	const test = await test_repo.get_test_by_id(req.params.id)
 	if (test) {
+        logger.debug(`[test router][router.put] parameter :id = ${req.params.id} test = ${test}`)
 		const { name, courseid } = req.body;
 
 		let updated = {
@@ -239,6 +246,7 @@ router.put("/:id", async function (req, res) {
 
 router.delete('/:id', async (req, resp) => {
     try {
+        logger.info(`[test router][router.delete] parameter :id = ${req.params.id}`)
         const result = await connectedKnex('test').where('id', req.params.id).del()
         resp.status(200).json({
             status: 'success',
