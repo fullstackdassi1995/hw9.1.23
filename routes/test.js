@@ -155,9 +155,8 @@ router.post("/",async function (req, res) {
             date: new Date(),
             courseid: courseid
         };
-        await test_repo.insert_test(test)
-        //test1.push(test);
-        logger.debug(`[test router][router.post] req.body = ${JSON.stringify(test)} `)
+        const result = await test_repo.insert_test(test)
+        logger.debug(`[test router][router.post] req.body = ${JSON.stringify(test)} id = ${result[0].id} `)
         res.status(201).json(test);
     }
     catch(err){
